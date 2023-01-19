@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -18,6 +19,13 @@ func main() {
 	if err != nil {
 		log.Fatal("Error to create clinet: ", err)
 	}
+
+	chainid, err := client.ChainID(context.Background())
+	if err != nil {
+		log.Fatal("Error to create clinet: ", err)
+	}
+
+	fmt.Println(chainid)
 
 	defer client.Close()
 
