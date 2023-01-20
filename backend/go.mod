@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/gin-gonic/gin v1.8.2
+	github.com/joho/godotenv v1.4.0
 )
 
 require (
@@ -20,7 +21,6 @@ require (
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/goccy/go-json v0.10.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
