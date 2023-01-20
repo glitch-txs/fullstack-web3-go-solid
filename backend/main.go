@@ -4,14 +4,18 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
-var infuraURL = "https://mainnet.infura.io/v3/7fdd6b5a027641cf910c6c1cc6635610"
-
 func main() {
+
+	infuraURL := "https://mainnet.infura.io/v3/" + os.Getenv("INFURA_KEY")
+
+	fmt.Println(infuraURL)
 
 	//Blockchain
 	client, err := ethclient.DialContext(context.Background(), infuraURL)
@@ -39,4 +43,13 @@ func main() {
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080
+}
+
+func init() {
+
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }
