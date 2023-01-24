@@ -1,42 +1,20 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
-	"os"
 
-	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	infuraURL := "https://mainnet.infura.io/v3/" + os.Getenv("INFURA_KEY")
-
-	fmt.Println(infuraURL)
-
-	//Blockchain
-	client, err := ethclient.DialContext(context.Background(), infuraURL)
-
-	if err != nil {
-		log.Fatal("Error to create clinet: ", err)
-	}
-
-	chainid, err := client.ChainID(context.Background())
-	if err != nil {
-		log.Fatal("Error to create clinet: ", err)
-	}
-
-	fmt.Println(chainid)
-
-	defer client.Close()
+	CallContract("0x1fe84fE4e1ae96F9b202188f7a6835dB3D27a264")
 
 	//server
 	r := gin.Default()
 
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/future", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
