@@ -40,7 +40,7 @@ func GetBalance(a string, u string) (string, error) {
 	o, err := ctr.BalanceOf(nil, cu)
 
 	if err != nil {
-		log.Fatalf("Failed to retrieve token name: %v", err)
+		log.Printf("Failed to retrieve token name: %v", err)
 		return "", err
 	}
 
