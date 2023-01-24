@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -9,14 +10,26 @@ import (
 
 func main() {
 
-	CallContract("0x1fe84fE4e1ae96F9b202188f7a6835dB3D27a264")
-
 	//server
 	r := gin.Default()
 
-	r.GET("/future", func(c *gin.Context) {
+	r.GET("/balance", func(c *gin.Context) {
+
+		ca := c.Query("contract")
+
+		ua := c.Query("user")
+
+		fmt.Printf("%v and %v /n", ca, ua)
+
+		b, err := GetBalance(ca, ua)
+
+		if err != nil {
+			c.JSON(400, gin.H{
+				"message": "something went wrong >.<'",
+			})
+		}
 		c.JSON(200, gin.H{
-			"message": "pong",
+			"message": b,
 		})
 	})
 

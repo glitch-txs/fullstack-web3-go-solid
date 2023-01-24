@@ -4,39 +4,50 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
+	"math/big"
 	"os"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func CallContract(addr string) {
+func GetBalance(a string, u string) (string, error) {
 
 	infuraURL := "https://goerli.infura.io/v3/" + os.Getenv("INFURA_KEY")
 
-	client, err := ethclient.DialContext(context.Background(), infuraURL)
+	cl, err := ethclient.DialContext(context.Background(), infuraURL)
 
 	if err != nil {
 		log.Fatal("Error to create clinet: ", err)
 	}
 
-	chainid, err := client.ChainID(context.Background())
+	chainid, err := cl.ChainID(context.Background())
 	if err != nil {
 		log.Fatal("Error to create clinet: ", err)
 	}
 
 	fmt.Println(chainid)
 
-	defer client.Close()
+	defer cl.Close()
 
-	newAddr := common.HexToAddress(addr)
+	ca := common.HexToAddress(a)
 
-	ctr, err := NewERC20(newAddr, client)
+	cu := common.HexToAddress(u)
 
-	output, err := ctr.Name(nil)
+	ctr, err := NewERC20(ca, cl)
+
+	o, err := ctr.BalanceOf(nil, cu)
 
 	if err != nil {
 		log.Fatalf("Failed to retrieve token name: %v", err)
+		return "", err
 	}
-	fmt.Println("Token name:", output)
+
+	fbal := new(big.Float)
+	fbal.SetString(o.String())
+	value := new(big.Float).Quo(fbal, big.NewFloat(math.Pow10(int(18))))
+	fmt.Println("Token name:", o)
+
+	return value.String(), nil
 }
